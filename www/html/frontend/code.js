@@ -151,3 +151,8 @@ function register(){
     }
 
 }
+
+
+function goToRegisterPage() {
+    window.location.href = "register.html";
+}
