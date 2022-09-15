@@ -1,16 +1,54 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.3">
-  <style type="text/css">
-    span.s1 {font-kerning: none}
-  </style>
-</head>
-<body>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 24.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s1"><b>We love COP 4331!</b></span></h1>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Contact Manager</title>
+        <script type="text/javascript" src="frontend/code.js"></script>
+    </head>
+
+
+
+    <body>
+        <h1 id="title">Contact Manager</h1>
+        
+    
+        <div class="container">
+            <span id="bodytitle"><b>Please Log In:</b></span><br/>
+            <label for="email"><b>Email</b></label>
+            <input type="text" id="email" placeholder="Enter Email"  required><br/>
+
+            <label for="pass"><b>Password</b></label>
+            <input type="password" id="password" placeholder="Enter Password"  required><br/>
+
+            <button type="button" id="loginButton" class="buttons" onclick="login();">Login</button>
+            <span id="loginSubmit"></span>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+        </div>
+
+    
+
+
+
+
+
+        <div class="register">
+            <span id="registerform"><b>New? Register Here:</b></span><br/>
+            
+            <label for="firstName"><b>First Name</b></label>
+            <input type="text" id="newFirstName" placeholder="Enter First Name" required><br/>
+
+            <label for="lastName"><b>Last Name</b></label>
+            <input type="text" id="newLastName" placeholder="Enter Last Name" required><br/>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" id="newEmail" placeholder="Enter Email" required><br/>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="newPass" placeholder="Enter Password" required><br/>
+
+            <button type="button" id="registerButton" class="buttons" onclick="register();">Register</button>
+            <span id="resultRegister"></span>
+        </div>
+    </body>
 </html>

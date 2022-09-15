@@ -1,4 +1,4 @@
-const url = "http://cop4331-group24.com";
+const url = "http://143.244.169.27";
 const ext = ".php";
 
 var tempID = 0;
@@ -27,6 +27,7 @@ function login(){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", link, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
     try{
         xhr.onreadystatechange = function(){
                 if(this.readyState == 4 && this.status == 200){
@@ -116,7 +117,7 @@ function register(){
     }
 
     else{
-        let newObj = {firstName:newFirst, lastName:newLast, email:newEmail, password:newPass};
+        let newObj = {firstName:newFirst, lastName:newLast, email:email, password:pass};
         let pay = JSON.stringify(newObj);
 
         let link = url + '/LAMPAPI/RegisterUser' + ext;
@@ -130,12 +131,12 @@ function register(){
                 if(this.readyState == 4 && this.status == 200){
                     document.getElementById("resultRegister").innerHTML = "New user registered!";
 
-                    let tempObj = JSON.parse(xhr.repsonseText);
+                    let jsonObject = JSON.parse(xhr.responseText);
 
-                    tempID = tempObj.id;
+                    console.log(jsonObject);
+                    console.log(jsonObject.error);
 
-                    tempFirst = jsonObject.firstName;
-                    tempLast = jsonObject.lastName;
+                    
 
                     saveCookie();
 
