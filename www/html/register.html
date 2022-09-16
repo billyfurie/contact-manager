@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Contact Manager</title>
+        <script type="text/javascript" src="frontend/code.js"></script>
+    </head>
+
+    <body>
+        <h1 id="title"><b>New User? Register Now!</b></h1>
+
+        
+        <div class="register">
+            <label for="firstName"><b>First Name</b></label>
+            <input type="text" id="newFirstName" placeholder="Enter First Name" required><br/>
+
+            <label for="lastName"><b>Last Name</b></label>
+            <input type="text" id="newLastName" placeholder="Enter Last Name" required><br/>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" id="newEmail" placeholder="Enter Email" required><br/>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="newPass" placeholder="Enter Password" required><br/>
+
+            <button type="button" id="registerButton" class="buttons" onclick="register();">Register</button>
+            <span id="resultRegister"></span>
+        </div>
+    </body>
+
+</html>
