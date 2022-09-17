@@ -8,7 +8,6 @@ var tempEmail = "";
 
 
 function login(){
-    console.log("Login pressed");
     tempID = 0;
     tempFirst = "";
     tempLast = "";
@@ -89,8 +88,19 @@ function readCookie(){
     }
 }
 
+function logout() {
+    tempID = 0;
+    tempFirst = "";
+    tempLast = "";
+    document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.href = "index.html";
+}
+
+
+
+
+
 function register(){
-    console.log("Buttonclicked");
     tempID = 0;
     tempFirst = "";
     tempLast = "";
@@ -101,7 +111,7 @@ function register(){
     let newLast = document.getElementById('newLastName').value;
 
     if(email == "" || pass == "" || newFirst == "" || newLast == ""){
-        document.getElementById('resultRegister').innterHTML = "Empty Fields";
+        document.getElementById('resultRegister').innerHTML = "Empty Fields";
         if(email == ""){
             document.getElementById('newEmail').innerHTML = "Email required to register";
         }
@@ -154,5 +164,183 @@ function register(){
 
 
 function goToRegisterPage() {
-    window.location.href = "register.html";
+   window.location.href = "register.html";
+}
+
+
+function addContact(){
+    let newFirst = document.getElementById("newFirst").value;
+    let newLast = document.getElementById("newLast").value;
+    let newEmail = document.getElementById("newEmail").value;
+    let newPhone = document.getElementById("newPhone").value;
+    document.getElementById("addContactSubmit").innerHTML = "";
+    // Make sure to match these in contacts.html
+
+    if(newFirst == "" || newLast == "" || newEmail == "" || newPhone == ""){
+        document.getElementById("addContactSubmit").innerHTML = "All fields are required for new contacts";
+    } 
+    else {
+        let newObj = {firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone, userId:tempID}
+        let pay = JSON.stringify(newObj);
+
+        let link = url + "/LAMPAPI/AddContact" + ext;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", link, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+        try {
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200 ){
+                    document.getElementById("addContactSubmit").innerHTML = "New Contact has been added";
+                }
+            };
+            xhr.send(pay);
+        }
+        catch(err) { 
+            document.getElementById("addContactSubmit").innerHTML = err.message;
+        }
+
+    }
+}
+
+
+function searchContact() {
+    let searchContact = document.getElementById("searchVal").value;
+    document.getElementById("searchSubmit").innerHTML = "";
+
+    let contactList = "";
+    let tempObj = {search:searchContact, userId:tempID};
+    let pay = JSON.stringify(tempObj);
+
+    let link = url + "LAMPAPI/SearchContacts" + ext;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", link, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                document.getElementById("searchSubmit").innerHTML = "Contact Accessed:";
+                let jsonObj = JSON.parse(xhr.responseText);
+
+                for(let i = 0; i < jsonObj.results.length; i++){
+                    contactList += "<br />" + jsonObj.results[i];
+
+                    if(i < jsonObj.results.length - 1){
+                        contactList += "<br />\r\n";
+                    }
+                }
+                document.getElementsByTagName("p")[0].innerHTML = contactList;
+            }
+
+        };
+        xhr.send(pay);
+    }
+    catch(err){
+        document.getElementById("searchSubmit").innerHTML = err.message;
+    }
+}
+
+
+function deleteContact() {
+
+    let rId = document.getElementById("removeID").value;
+    document.getElementById("deleteSubmit").innerHTML = "";
+
+    let deletedUser = {contactId:rId};
+    let pay = JSON.stringify(deletedUser);
+
+    let link = url + "/LAMPAPI/RemoveContact" + ext;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", link, true);
+    xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
+
+    try {
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.readyStatus == 200){
+                document.getElementById("removeID").value = '';
+                document.getElementById("deleteSubmit").innerHTML = "Contact Removed Successfully";
+            }
+        };
+        xhr.send(pay);
+    }
+    catch(err){
+        document.getElementById("deleteSubmit").innerHTML = err.message;
+    }
+}
+
+
+function updateContact() {
+    let newFirst = document.getElementById("newFirst").value;
+    let newLast = document.getElementById("newLast").value;
+    let newEmail = document.getElementById("newEmail").value;
+    let newPhone = document.getElementById("newPhone").value;
+
+    document.getElementById("updateResult").innerHTML = "";
+
+    let tempObj = {contactId:tempID, firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone};
+    let pay = JSON.stringify(tempObj);
+
+    let link = url + "/LAMPAPI/UpdateContact" + ext;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", link, true);
+    xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
+
+    try {
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                document.getElementById("newFirst").value = "";
+                document.getElementById("newLast").value = "";
+                document.getElementById("newEmail").value = "";
+                document.getElementById("newPhone").value = "";
+
+                document.getElementById("updateResult").innerHTML = "Contact Successfully Updated";
+            }
+        };
+        xhr.send(pay);
+    }
+    catch(err){
+        document.getElementById("updateResult").innerHTML = err.message;
+    }
+}
+
+
+function updateUser() {
+    let newFirst = document.getElementById("newUserFirst").value;
+    let newLast = document.getElementById("newUserLast").value;
+    let newEmail = document.getElementById("newUserEmail").value;
+    let newPass = document.getElementById("newUserPassword").value;
+
+    document.getElementById("updateUserResult").innerHTML = "";
+    
+    let tempObj = {userId: tempID, firstName:newFirst, lastName:newLast, email:newEmail, password:newPass};
+    let pay = JSON.stringify(tempObj);
+
+    let link = url + "LAMPAPI/UpdateUser" + ext;
+    
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", link, true);
+    xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
+
+
+    try {
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                document.getElementById("newUserFirst").value = "";
+                document.getElementById("newUserLast").value = "";
+                document.getElementById("newUserEmail").value = "";
+                document.getElementById("newUserPhone").value = "";
+
+                document.getElementById("updateUserResult").innerHTML = "User Successfully Updated";
+            }
+        };
+        xhr.send(pay);
+    }
+    catch(err){
+        document.getElementById("updateUserResult").innerHTML = err.message;
+    }
 }
