@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Contact Manager</title>
+        <title>MyContactManager</title>
 
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -12,31 +12,39 @@
 
         <script type="text/javascript" src="frontend/code.js"></script>
         <link rel="stylesheet" href="frontend/styles.css" />
+
+        <!-- Icons CSS -->
+        <script src="https://kit.fontawesome.com/bf25718300.js" crossorigin="anonymous"></script>
+    
     </head>
 
     <body>
         <div class="register">
-            <h1 id="title"><b>Contact Manager</b></h1>
 
             <div class="register-container-background">
                 <div class="register-container">
+                    <h1 id="title"><b>MyContactManager</b></h1>
                     <form>
                         <div class="form-group field">
+                            <i class="fa-solid fa-user"></i>
                             <label for="newFirstName">First Name</label>
                             <input type="text" class="form-control" id="newFirstName" required>
                         </div>
 
                         <div class="form-group field">
+                            <i class="fa-solid fa-user"></i>
                             <label for="newLastName">Last Name</label>
                             <input type="text" class="form-control" id="newLastName" required>
                         </div>
 
                         <div class="form-group field">
+                            <i class="fa-solid fa-envelope"></i>
                             <label for="newEmail">Email</label>
                             <input type="email" class="form-control" id="newEmail" required>
                         </div>
 
                         <div class="form-group field">
+                            <i class="fa-solid fa-lock"></i>
                             <label for="newPass">Password</label>
                             <input type="password" class="form-control" id="newPass" required>
                         </div>
