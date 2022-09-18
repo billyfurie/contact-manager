@@ -15,7 +15,7 @@
 .register-container-background {
     min-width: 22vw;
     min-height: 52vh;
-    background-color: white;
+    background-color: rgb(187, 187, 187);
     padding: 6px;
     border-radius: 20px;
     align-self: center;
@@ -74,7 +74,7 @@
 }
 
 body {
-    background: url(image.png), linear-gradient(skyblue, rgba(144, 238, 144, 0.714));
+    background: url(image.png), linear-gradient(rgb(0, 114, 159), rgba(0, 66, 157, 0.714));
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;

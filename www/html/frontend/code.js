@@ -167,6 +167,10 @@ function goToRegisterPage() {
    window.location.href = "register.html";
 }
 
+function goToLoginPage() {
+    window.location.href = "index.html";
+ }
+
 
 function addContact(){
     let newFirst = document.getElementById("newFirst").value;
