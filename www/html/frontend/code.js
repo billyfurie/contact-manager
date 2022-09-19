@@ -291,7 +291,7 @@ function updateContact() {
     let link = url + "/LAMPAPI/UpdateContact" + ext;
 
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", link, true);
+    xhr.open("PUT", link, true);
     xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
 
     try {
@@ -324,10 +324,10 @@ function updateUser() {
     let tempObj = {userId: tempID, firstName:newFirst, lastName:newLast, email:newEmail, password:newPass};
     let pay = JSON.stringify(tempObj);
 
-    let link = url + "LAMPAPI/UpdateUser" + ext;
+    let link = url + "/LAMPAPI/UpdateUser" + ext;
     
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", link, true);
+    xhr.open("PUT", link, true);
     xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
 
 
