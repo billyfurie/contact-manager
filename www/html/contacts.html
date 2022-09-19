@@ -11,7 +11,7 @@
 		 <!-- Bootstrap CSS -->
 		 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        <script type="text/javascript" src="js/code.js"></script>
+        <script type="text/javascript" src="frontend/code.js"></script>
         <link rel="stylesheet" href="frontend/styles.css" />
 
 		<!-- Icons CSS -->
@@ -31,7 +31,7 @@
 					type="button"
                 	id="logoutButton"
                 	class="btn btn-dark"
-                	onclick=logout()> Log Out 
+                	onclick="logout();"> Log Out 
 				</button>
                 <b><span id="userName"></span></b>
                 <script>readCookie();</script>
@@ -49,7 +49,7 @@
 						<div class="input-group">
 							<input 
 								type="text"
-								id="searchText"
+								id="searchVal"
 								class="form-control"
 								placeholder="Search"
 							/>
@@ -58,11 +58,11 @@
 									type="button"
 									id="searchButton"
 									class="btn btn-primary"
-									onclick=searchContact()> Search Contact 
+									onclick="searchContact();"> Search Contact 
 								</button>
 							</div>
 						</div>
-						<span id="searchContactResult"></span>
+						<span id="searchSubmit"></span>
 						<p id="contactList"></p>
 
 						<!-- Table with found contacts -->
@@ -134,7 +134,7 @@
 							type="button"
 							id="editContactButton"
 							class="btn btn-primary"
-							onclick=updateContact()> Update Contact 
+							onclick="updateContact();"> Update Contact 
 						</button>
 					</form>
 
@@ -146,7 +146,7 @@
 						<h3 id="addContactHeader"> Add New Contact: </h3>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="firstName">First Name:</label>
+								<label id="newFirst">First Name:</label>
 								<input 
 									type="text"
 									class="form-control"
@@ -154,7 +154,7 @@
 									placeholder="Enter their first name">
 							</div>
 							<div class="form-group col-md-6">
-								<label for="lastName">Last Name:</label>
+								<label id="newLast">Last Name:</label>
 								<input 
 									type="text"
 									class="form-control"
@@ -164,7 +164,7 @@
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="email">Email Address:</label>
+								<label id="newEmail">Email Address:</label>
 								<input 
 									type="email"
 									class="form-control"
@@ -172,7 +172,7 @@
 									placeholder="Enter their email address">
 							</div>
 							<div class="form-group col-md-6">
-								<label for="phoneNumber">Phone Number:</label>
+								<label id="newPhone">Phone Number:</label>
 								<input 
 									type="text"
 									class="form-control"
@@ -185,9 +185,9 @@
 							type="button"
 							id="addContactButton"
 							class="btn btn-success"
-							onclick=addContact()> Add Contact 
+							onclick="addContact();"> Add Contact 
 						</button>
-						<span id="addContactResult"></span>
+						<span id="addContactSubmit"></span>
 					</form>
 				</div>
 			</div>
