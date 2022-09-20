@@ -169,7 +169,7 @@ function goToRegisterPage() {
 
 function goToLoginPage() {
     window.location.href = "index.html";
- }
+}
 
 
 function addContact(){
@@ -195,7 +195,7 @@ function addContact(){
 
         try {
             xhr.onreadystatechange = function() {
-                if(this.readyState == 4 && this.status == 200 ){
+                if(this.readyState == 4 && this.status == 200){
                     document.getElementById("addContactSubmit").innerHTML = "New Contact has been added";
                 }
             };
@@ -217,7 +217,7 @@ function searchContact() {
     let tempObj = {search:searchContact, userId:tempID};
     let pay = JSON.stringify(tempObj);
 
-    let link = url + "LAMPAPI/SearchContacts" + ext;
+    let link = url + "/LAMPAPI/SearchContacts" + ext;
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", link, true);
@@ -230,13 +230,19 @@ function searchContact() {
                 let jsonObj = JSON.parse(xhr.responseText);
 
                 for(let i = 0; i < jsonObj.results.length; i++){
-                    contactList += "<br />" + jsonObj.results[i];
+                    contactList += "<tr>";
+                    //contactList += "<br />" + jsonObj.results[i].firstName + " " + jsonObj.results[i].lastName + " " + jsonObj.results[i].email + " " + jsonObj.results[i].phoneNumber;
+                    contactList += "<td>" + jsonObj.results[i].firstName + "</td>";
+                    contactList += "<td>" + jsonObj.results[i].lastName + "</td>";
+                    contactList += "<td>" + jsonObj.results[i].email + "</td>";
+                    contactList += "<td>" + jsonObj.results[i].phoneNumber + "</td>";
+                    contactList += "</tr>";
 
                     if(i < jsonObj.results.length - 1){
                         contactList += "<br />\r\n";
                     }
                 }
-                document.getElementsByTagName("p")[0].innerHTML = contactList;
+                document.getElementById("searchTableBody").innerHTML = contactList;
             }
 
         };
@@ -291,7 +297,7 @@ function updateContact() {
     let link = url + "/LAMPAPI/UpdateContact" + ext;
 
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", link, true);
+    xhr.open("PUT", link, true);
     xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
 
     try {
@@ -324,10 +330,10 @@ function updateUser() {
     let tempObj = {userId: tempID, firstName:newFirst, lastName:newLast, email:newEmail, password:newPass};
     let pay = JSON.stringify(tempObj);
 
-    let link = url + "LAMPAPI/UpdateUser" + ext;
+    let link = url + "/LAMPAPI/UpdateUser" + ext;
     
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", link, true);
+    xhr.open("PUT", link, true);
     xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>MyContactManager</title>
+        <title>MyContactManager - Login</title>
 
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -18,8 +18,37 @@
     </head>
 
     <body>
+
+
+        <!-- <h1 id="title">Contact Manager</h1>
+        
+    
+        <div class="container">
+            <span id="bodytitle"><b>Please Log In:</b></span><br/>
+            <label for="email"><b>Email</b></label>
+            <input type="text" id="email" placeholder="Enter Email"  required><br/>
+
+            <label for="pass"><b>Password</b></label>
+            <input type="password" id="password" placeholder="Enter Password"  required><br/>
+
+            <button type="button" id="loginButton" class="buttons" onclick="login();">Login</button>
+            <span id="loginSubmit"></span>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+            
+            <br/>
+            <span id="registerPgButton">New? Click here to Register!</span>
+            <button type="button" id="registerPgBtn" class="buttons" onclick="goToRegisterPage();">Register Now</button>
+        </div> -->
+
+
+
+
         <div class="register">
+
             <div class="register-container-background">
+                
                 <div class="register-container login">
                     <h1 id="title"><b>MyContactManager</b></h1>
                     <form>
@@ -35,8 +64,8 @@
                             <input type="password" class="form-control" id="password" required>
                         </div>
         
-                        <button type="submit" id="registerButton" class="btn btn-primary login-register-btn" onclick="login();">Login</button>
-                        <span id="resultRegister"></span>
+                        <button type="button" id="registerButton" class="btn btn-primary login-register-btn" onclick="login();">Login</button>
+                        <span id="loginSubmit"></span>
                         <button type="button" class="btn btn-link login-register-toggle-link" onclick="goToRegisterPage();">Create an account</button>
                     </form>
                 </div>
