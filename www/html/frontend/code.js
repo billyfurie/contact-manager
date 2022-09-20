@@ -231,16 +231,29 @@ function searchContact() {
 
                 for(let i = 0; i < jsonObj.results.length; i++){
                     contactList += "<tr>";
-                    //contactList += "<br />" + jsonObj.results[i].firstName + " " + jsonObj.results[i].lastName + " " + jsonObj.results[i].email + " " + jsonObj.results[i].phoneNumber;
                     contactList += "<td>" + jsonObj.results[i].firstName + "</td>";
                     contactList += "<td>" + jsonObj.results[i].lastName + "</td>";
                     contactList += "<td>" + jsonObj.results[i].email + "</td>";
                     contactList += "<td>" + jsonObj.results[i].phoneNumber + "</td>";
-                    contactList += "</tr>";
 
-                    if(i < jsonObj.results.length - 1){
-                        contactList += "<br />\r\n";
-                    }
+                    contactList += "<td>";
+
+                    var editBtn = document.createElement('input');
+                    editBtn.type = "button";
+                    editBtn.className = "btn btn-success contactActionButton";
+                    editBtn.value = "Edit";
+                    
+                    contactList += editBtn.outerHTML;
+
+                    var deleteBtn = document.createElement('input');
+                    deleteBtn.type = "button";
+                    deleteBtn.className = "btn btn-danger contactActionButton";
+                    deleteBtn.value = "Delete";
+                    //btn.onclick = (function(entry) {return function() {chooseUser(entry);}})(entry);
+                    contactList += deleteBtn.outerHTML;
+
+                    contactList += "</td>";
+                    contactList += "</tr>";
                 }
                 document.getElementById("searchTableBody").innerHTML = contactList;
             }

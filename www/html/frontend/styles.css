@@ -127,3 +127,6 @@ body {
     border-radius: 10px;
 }
 
+.contactActionButton {
+    width: 72px;
+}
