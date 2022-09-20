@@ -16,6 +16,12 @@
 
 		<!-- Icons CSS -->
         <script src="https://kit.fontawesome.com/bf25718300.js" crossorigin="anonymous"></script>
+
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function() {
+				readCookie();
+			}, false);
+		</script>
     
     </head>
 
@@ -34,7 +40,7 @@
                 	onclick="logout();"> Log Out 
 				</button>
                 <b><span id="userName"></span></b>
-                <script>readCookie();</script>
+                
             </div>
       </div>
 
@@ -80,7 +86,8 @@
 										<th style="width: 24px;"></th>
 									</tr>
 								</thead>
-								<tbody id="searchTableBody"></tbody>
+								<tbody id="searchTableBody">
+								</tbody>
 							</table>
 						</div>
 						<span id="removeContactResult"></span>
@@ -136,6 +143,7 @@
 							class="btn btn-primary"
 							onclick="updateContact();"> Update Contact 
 						</button>
+						<span id="updateResult"></span>
 					</form>
 
 					<!-- ADD CONTACT-->
@@ -146,37 +154,37 @@
 						<h3 id="addContactHeader"> Add New Contact: </h3>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label id="newFirst">First Name:</label>
+								<label for="firstName">First Name:</label>
 								<input 
 									type="text"
 									class="form-control"
-									id="firstName"
+									id="newFirst"
 									placeholder="Enter their first name">
 							</div>
 							<div class="form-group col-md-6">
-								<label id="newLast">Last Name:</label>
+								<label for="lastName">Last Name:</label>
 								<input 
 									type="text"
 									class="form-control"
-									id="lastName"
+									id="newLast"
 									placeholder="Enter their last name">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label id="newEmail">Email Address:</label>
+								<label for="email">Email Address:</label>
 								<input 
 									type="email"
 									class="form-control"
-									id="email"
+									id="newEmail"
 									placeholder="Enter their email address">
 							</div>
 							<div class="form-group col-md-6">
-								<label id="newPhone">Phone Number:</label>
+								<label for="phone">Phone Number:</label>
 								<input 
 									type="text"
 									class="form-control"
-									id="phoneNumber"
+									id="newPhone"
 									placeholder="Enter their phone number">
 							</div>
 						</div>

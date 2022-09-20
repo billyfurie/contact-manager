@@ -230,13 +230,19 @@ function searchContact() {
                 let jsonObj = JSON.parse(xhr.responseText);
 
                 for(let i = 0; i < jsonObj.results.length; i++){
-                    contactList += "<br />" + jsonObj.results[i];
+                    contactList += "<tr>";
+                    //contactList += "<br />" + jsonObj.results[i].firstName + " " + jsonObj.results[i].lastName + " " + jsonObj.results[i].email + " " + jsonObj.results[i].phoneNumber;
+                    contactList += "<td>" + jsonObj.results[i].firstName + "</td>";
+                    contactList += "<td>" + jsonObj.results[i].lastName + "</td>";
+                    contactList += "<td>" + jsonObj.results[i].email + "</td>";
+                    contactList += "<td>" + jsonObj.results[i].phoneNumber + "</td>";
+                    contactList += "</tr>";
 
                     if(i < jsonObj.results.length - 1){
                         contactList += "<br />\r\n";
                     }
                 }
-                document.getElementsByTagName("p")[0].innerHTML = contactList;
+                document.getElementById("searchTableBody").innerHTML = contactList;
             }
 
         };
@@ -278,10 +284,10 @@ function deleteContact() {
 
 
 function updateContact() {
-    let newFirst = document.getElementById("newFirst").value;
-    let newLast = document.getElementById("newLast").value;
-    let newEmail = document.getElementById("newEmail").value;
-    let newPhone = document.getElementById("newPhone").value;
+    let newFirst = document.getElementById("editFirstName").value;
+    let newLast = document.getElementById("editLastName").value;
+    let newEmail = document.getElementById("editEmail").value;
+    let newPhone = document.getElementById("editPhoneNumber").value;
 
     document.getElementById("updateResult").innerHTML = "";
 
