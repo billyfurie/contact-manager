@@ -13,36 +13,14 @@
 }
 
 .register-container2 {
-    background-color: rgba(255, 255, 255, 0.408);
+    background-color: rgb(255 255 255 / 70%);
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.325);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 18px;
-    height: 100%;
-    padding: 1.5em;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.register-container-background {
-    min-width: 22vw;
-    min-height: 52vh;
-    background-color: white;
-    padding: 6px;
-    border-radius: 20px;
-    align-self: center;
-}
-
-.register-container-background2 {
-    min-width: 22vw;
-    min-height: 52vh;
-    background-color: white;
-    padding: 6px;
-    border-radius: 20px;
-    align-self: center;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 50px;
+    height: 90vh;
+    width: 95%;
+    padding-top: 4em;
+    padding-bottom: 4em;
 }
 
 .login {
@@ -96,8 +74,7 @@
     font-weight: bold;
     color: black;
     text-align: center;
-    margin-bottom: 10px;
-    margin-top:60px;
+    margin-bottom: 60px;
 }
 
 #logoutButton{
@@ -128,7 +105,8 @@ body {
 }
 
 .contactActionButton {
-    width: 72px;
+    width: 60px;
+    padding: 1px;
 }
 
 #loginSubmit {
@@ -144,4 +122,42 @@ body {
 .field-invalid {
     border-color: #FF0000;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.button-col {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.add-and-search-contacts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-contact-button {
+    height: 60%;
+    width: 15%;
+}
+
+.fa-user-plus {
+    margin-left: 3px;
+}
+
+.fa-magnifying-glass {
+    margin-left: 3px;
+}
+
+.searchDiv {
+    padding-right: 0;
+}
+
+.contact-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#accessUIDiv {
+    padding: 5em;
 }

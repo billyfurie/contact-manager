@@ -247,6 +247,8 @@ function addContact(){
             xhr.onreadystatechange = function() {
                 if(this.readyState == 4 && this.status == 200){
                     document.getElementById("addContactSubmit").innerHTML = "New Contact has been added";
+                    document.getElementById("addContactForm").reset();
+                    searchContact();
                 }
             };
             xhr.send(pay);
@@ -263,6 +265,8 @@ function searchContact() {
     document.getElementById("searchSubmit").innerHTML = "";
 
     let contactList = "";
+    document.getElementById("searchTableBody").innerHTML = contactList;
+
     let tempObj = {search:searchContact, userId:tempID};
     let pay = JSON.stringify(tempObj);
 
@@ -275,36 +279,26 @@ function searchContact() {
     try {
         xhr.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
-                document.getElementById("searchSubmit").innerHTML = "Contact Accessed:";
+                // clear the table before the search
+                document.getElementById("searchTableBody").innerHTML = "";
                 let jsonObj = JSON.parse(xhr.responseText);
 
+       
                 for(let i = 0; i < jsonObj.results.length; i++){
-                    contactList += "<tr>";
+                    contactList += '<tr>';
                     contactList += "<td>" + jsonObj.results[i].firstName + "</td>";
                     contactList += "<td>" + jsonObj.results[i].lastName + "</td>";
                     contactList += "<td>" + jsonObj.results[i].email + "</td>";
                     contactList += "<td>" + jsonObj.results[i].phoneNumber + "</td>";
 
-                    contactList += "<td>";
+                    contactList += '<td class="button-col">';
 
-                    // var editBtn = document.createElement('input');
-                    // editBtn.type = "button";
-                    // editBtn.className = "btn btn-success contactActionButton";
-                    // editBtn.value = "Edit";
-                    // contactList += editBtn.outerHTML;
+                    //	 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContactModal">Add Contact</button>
 
-                    contactList += '<button type="button" class="btn btn-success contactActionButton" onClick=updateContact(' + jsonObj.results[i].contactId + ')>Edit</button>';
-
-
-                    // var deleteBtn = document.createElement('input');
-                    // deleteBtn.type = "button";
-                    // deleteBtn.className = "btn btn-danger contactActionButton";
-                    // deleteBtn.value = "Delete";
-                    // deleteBtn.addEventListener = ("click", deleteContact(jsonObj.results[i].contactId));
-                    // contactList += deleteBtn.outerHTML;
-
-
-                    contactList += '<button type="button" class="btn btn-danger contactActionButton" onClick=deleteContact(' + jsonObj.results[i].contactId + ')>Delete</button>';
+                    // contactList += '<button type="button" class="btn btn-success contactActionButton" onClick=updateContact(' + jsonObj.results[i].contactId + ')>Edit</button>';
+                    let contactInfo = jsonObj.results[i].contactId + ", '" + jsonObj.results[i].firstName + "', '" + jsonObj.results[i].lastName +  "', '" + jsonObj.results[i].email +  "', '" + jsonObj.results[i].phoneNumber + "'";
+                    contactList += '<button type="button" class="btn btn-success contactActionButton" data-toggle="modal" data-target="#editContactModal" onClick="populateEditModal(' + contactInfo + ')"><i class="fa-solid fa-pencil"></i></button>';
+                    contactList += '<button type="button" class="btn btn-danger contactActionButton" onClick=deleteContact(' + jsonObj.results[i].contactId + ')><i class="fa-solid fa-trash-can"></i></button>';
 
                     contactList += "</td>";
                     contactList += "</tr>";
@@ -332,25 +326,29 @@ function deleteContact(contactId) {
     xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
 
     try {
+        
         xhr.onreadystatechange = function() {
-            if(this.readyState == 4 && this.readyStatus == 200){
-                document.getElementById("deleteSubmit").innerHTML = "Contact Removed Successfully";
+            if(this.readyState == 4 && this.status == 200){
+                //document.getElementById("deleteSubmit").innerHTML = "Contact Removed Successfully";
+                console.log("contact" + contactId);
+                searchContact();
             }
         };
+        
         xhr.send();
     }
     catch(err){
+        console.log("error");
         document.getElementById("deleteSubmit").innerHTML = err.message;
     }
 }
 
 function updateContact(id) {
-    let newFirst = document.getElementById("newFirst").value;
-    let newLast = document.getElementById("newLast").value;
-    let newEmail = document.getElementById("newEmail").value;
-    let newPhone = document.getElementById("newPhone").value;
-
-    document.getElementById("updateResult").innerHTML = "";
+    console.log("plaease");
+    let newFirst = document.getElementById("editFirst").value;
+    let newLast = document.getElementById("editLast").value;
+    let newEmail = document.getElementById("editEmail").value;
+    let newPhone = document.getElementById("editPhone").value;
 
     let tempObj = {contactId:id, firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone};
     let pay = JSON.stringify(tempObj);
@@ -364,13 +362,13 @@ function updateContact(id) {
     try {
         xhr.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
-                document.getElementById("updateResult").innerHTML = "Contact Successfully Updated";
+                searchContact();
             }
         };
         xhr.send(pay);
     }
     catch(err){
-        document.getElementById("updateResult").innerHTML = err.message;
+        console.log("broken");
     }
 }
 
@@ -408,4 +406,15 @@ function updateUser() {
     catch(err){
         document.getElementById("updateUserResult").innerHTML = err.message;
     }
+}
+
+
+function populateEditModal(contactId, firstName, lastName, email, phoneNumber) {
+
+    document.getElementById("editFirst").value = firstName;
+    document.getElementById("editLast").value = lastName;
+    document.getElementById("editEmail").value = email;
+    document.getElementById("editPhone").value = phoneNumber;
+    //document.getElementById("editContactButton").onmousedown = updateContact(contactId);
+    document.getElementById("editContactButton").outerHTML = '<button type="button" id="editContactButton" class="btn btn-primary" data-dismiss="modal" onClick="updateContact(' + contactId + ')"><i class="fa-solid fa-pencil"></i></button>'
 }
