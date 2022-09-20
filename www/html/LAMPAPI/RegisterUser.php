@@ -27,12 +27,13 @@
 			$stmt = $conn->prepare("INSERT into Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
 			$stmt->bind_param("ssss", $firstName, $lastName, $email, $password);
 			$stmt->execute();
-			
+			$stmt->close();
+
 			returnWithError("");
 		}
 
 		$stmtCheck->close();
-		$stmt->close();
+		
 		$conn->close();
 	}
 

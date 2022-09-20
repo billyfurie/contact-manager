@@ -6,6 +6,26 @@ var tempFirst = "";
 var tempLast = "";
 var tempEmail = "";
 
+function validEmail(email) 
+{
+    atpos = email.indexOf("@");
+    dotpos = email.lastIndexOf(".");
+    finalChar = email.length;
+
+    // Check to see if there is a character after the "."
+    if ((finalChar - 1) == dotpos) 
+    {
+        return false;
+    }
+
+    // Check to see if there is a character before and after "@"
+    if (atpos < 1 || ( dotpos - atpos < 2 )) 
+    {
+        return false;
+    }
+
+    return true;
+}
 
 function login(){
     tempID = 0;
@@ -13,11 +33,32 @@ function login(){
     tempLast = "";
 
     let login = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    let pass = document.getElementById("password").value;
 
     document.getElementById("loginSubmit").innerHTML = "";
 
-    let tmp={email:login,password:password};
+    let loginField = document.getElementById("email");
+    let passField = document.getElementById("password");
+    loginField.classList.remove("field-invalid");
+    passField.classList.remove("field-invalid");
+
+    if (login == "" || pass == "") {
+        document.getElementById('loginSubmit').innerHTML = "Please fill in all fields.";
+        if (login == "") {
+            loginField.classList.add("field-invalid");
+        }
+        if (pass == "") {
+            passField.classList.add("field-invalid");
+        }
+        return;
+    }
+    if (validEmail(login) == false) {
+        document.getElementById('loginSubmit').innerHTML = "Please enter a valid email.";
+        loginField.classList.add("field-invalid");
+        return;
+    }
+
+    let tmp = {email:login, password:pass};
 
     let jsonPayload = JSON.stringify(tmp);
 
@@ -29,7 +70,7 @@ function login(){
 
     try{
         xhr.onreadystatechange = function(){
-                if(this.readyState == 4 && this.status == 200){
+            if(this.readyState == 4 && this.status == 200){
                 let jsonObject = JSON.parse(xhr.responseText);
                 tempID = jsonObject.id;
 
@@ -50,6 +91,8 @@ function login(){
     }
     catch(err){
         document.getElementById("loginSubmit").innerHTML = err.message;
+        loginField.classList.add("field-invalid");
+        passField.classList.add("field-invalid");
     }
 
 }
@@ -96,10 +139,6 @@ function logout() {
     window.location.href = "index.html";
 }
 
-
-
-
-
 function register(){
     tempID = 0;
     tempFirst = "";
@@ -110,58 +149,70 @@ function register(){
     let newFirst = document.getElementById('newFirstName').value;
     let newLast = document.getElementById('newLastName').value;
 
+    document.getElementById('resultRegister').innerHTML = "";
+
+    let firstNameField = document.getElementById("newFirstName");
+    let lastNameField = document.getElementById("newLastName");
+    let loginField = document.getElementById("newEmail");
+    let passField = document.getElementById("newPass");
+    firstNameField.classList.remove("field-invalid");
+    lastNameField.classList.remove("field-invalid");
+    loginField.classList.remove("field-invalid");
+    passField.classList.remove("field-invalid");
+
     if(email == "" || pass == "" || newFirst == "" || newLast == ""){
-        document.getElementById('resultRegister').innerHTML = "Empty Fields";
+        document.getElementById('resultRegister').innerHTML = "Please fill in all fields.";
         if(email == ""){
-            document.getElementById('newEmail').innerHTML = "Email required to register";
+            loginField.classList.add("field-invalid");
         }
         if(pass == ""){
-            document.getElementById('newPass').innerHTML = "Password required to register";
+            passField.classList.add("field-invalid");
         }
         if(newFirst == ""){
-            document.getElementById('newFirst').innerHTML = "First Name required to register";
+            firstNameField.classList.add("field-invalid");
         }
         if(newLast == ""){
-            document.getElementById('newLast').innerHTML = "Last Name required to register";
+            lastNameField.classList.add("field-invalid");  
         }
+        return;
+    }
+    if (validEmail(email) == false) {
+        document.getElementById('resultRegister').innerHTML = "Please enter a valid email.";
+        loginField.classList.add("field-invalid");
+        return;
     }
 
-    else{
-        let newObj = {firstName:newFirst, lastName:newLast, email:email, password:pass};
-        let pay = JSON.stringify(newObj);
+    let newObj = {firstName:newFirst, lastName:newLast, email:email, password:pass};
+    let pay = JSON.stringify(newObj);
 
-        let link = url + '/LAMPAPI/RegisterUser' + ext;
+    let link = url + '/LAMPAPI/RegisterUser' + ext;
 
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", link, true);
-        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", link, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-        try{
-            xhr.onreadystatechange = function(){
-                if(this.readyState == 4 && this.status == 200){
-                    document.getElementById("resultRegister").innerHTML = "New user registered!";
+    try{
+        xhr.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
 
-                    let jsonObject = JSON.parse(xhr.responseText);
+                let jsonObject = JSON.parse(xhr.responseText);
 
-                    console.log(jsonObject);
-                    console.log(jsonObject.error);
-
-                    
-
+                if (jsonObject.error == "") {
                     saveCookie();
-
                     window.location.href = "index.html";
                 }
-            };
-            xhr.send(pay);
-        }
-        catch(err){
-            document.getElementById("resultRegister").innerHTML = err.message;
-        }
+                else {
+                    loginField.classList.add("field-invalid");
+                    document.getElementById("resultRegister").innerHTML = jsonObject.error;
+                }
+            }
+        };
+        xhr.send(pay);
     }
-
+    catch(err){
+        console.log(err);
+    }
 }
-
 
 function goToRegisterPage() {
    window.location.href = "register.html";
@@ -170,7 +221,6 @@ function goToRegisterPage() {
 function goToLoginPage() {
     window.location.href = "index.html";
 }
-
 
 function addContact(){
     let newFirst = document.getElementById("newFirst").value;
@@ -208,7 +258,6 @@ function addContact(){
     }
 }
 
-
 function searchContact() {
     let searchContact = document.getElementById("searchVal").value;
     document.getElementById("searchSubmit").innerHTML = "";
@@ -238,19 +287,24 @@ function searchContact() {
 
                     contactList += "<td>";
 
-                    var editBtn = document.createElement('input');
-                    editBtn.type = "button";
-                    editBtn.className = "btn btn-success contactActionButton";
-                    editBtn.value = "Edit";
-                    
-                    contactList += editBtn.outerHTML;
+                    // var editBtn = document.createElement('input');
+                    // editBtn.type = "button";
+                    // editBtn.className = "btn btn-success contactActionButton";
+                    // editBtn.value = "Edit";
+                    // contactList += editBtn.outerHTML;
 
-                    var deleteBtn = document.createElement('input');
-                    deleteBtn.type = "button";
-                    deleteBtn.className = "btn btn-danger contactActionButton";
-                    deleteBtn.value = "Delete";
-                    //btn.onclick = (function(entry) {return function() {chooseUser(entry);}})(entry);
-                    contactList += deleteBtn.outerHTML;
+                    contactList += '<button type="button" class="btn btn-success contactActionButton" onClick=updateContact(' + jsonObj.results[i].contactId + ')>Edit</button>';
+
+
+                    // var deleteBtn = document.createElement('input');
+                    // deleteBtn.type = "button";
+                    // deleteBtn.className = "btn btn-danger contactActionButton";
+                    // deleteBtn.value = "Delete";
+                    // deleteBtn.addEventListener = ("click", deleteContact(jsonObj.results[i].contactId));
+                    // contactList += deleteBtn.outerHTML;
+
+
+                    contactList += '<button type="button" class="btn btn-danger contactActionButton" onClick=deleteContact(' + jsonObj.results[i].contactId + ')>Delete</button>';
 
                     contactList += "</td>";
                     contactList += "</tr>";
@@ -266,16 +320,12 @@ function searchContact() {
     }
 }
 
-
-function deleteContact() {
-
-    let rId = document.getElementById("removeID").value;
+function deleteContact(contactId) {
+    console.log("deleted");
     document.getElementById("deleteSubmit").innerHTML = "";
 
-    let deletedUser = {contactId:rId};
-    let pay = JSON.stringify(deletedUser);
 
-    let link = url + "/LAMPAPI/RemoveContact" + ext;
+    let link = url + "/LAMPAPI/RemoveContact" + ext + "?contactId=" + contactId;
 
     let xhr = new XMLHttpRequest();
     xhr.open("DELETE", link, true);
@@ -284,19 +334,17 @@ function deleteContact() {
     try {
         xhr.onreadystatechange = function() {
             if(this.readyState == 4 && this.readyStatus == 200){
-                document.getElementById("removeID").value = '';
                 document.getElementById("deleteSubmit").innerHTML = "Contact Removed Successfully";
             }
         };
-        xhr.send(pay);
+        xhr.send();
     }
     catch(err){
         document.getElementById("deleteSubmit").innerHTML = err.message;
     }
 }
 
-
-function updateContact() {
+function updateContact(id) {
     let newFirst = document.getElementById("newFirst").value;
     let newLast = document.getElementById("newLast").value;
     let newEmail = document.getElementById("newEmail").value;
@@ -304,7 +352,7 @@ function updateContact() {
 
     document.getElementById("updateResult").innerHTML = "";
 
-    let tempObj = {contactId:tempID, firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone};
+    let tempObj = {contactId:id, firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone};
     let pay = JSON.stringify(tempObj);
 
     let link = url + "/LAMPAPI/UpdateContact" + ext;
@@ -316,11 +364,6 @@ function updateContact() {
     try {
         xhr.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
-                document.getElementById("newFirst").value = "";
-                document.getElementById("newLast").value = "";
-                document.getElementById("newEmail").value = "";
-                document.getElementById("newPhone").value = "";
-
                 document.getElementById("updateResult").innerHTML = "Contact Successfully Updated";
             }
         };
@@ -330,7 +373,6 @@ function updateContact() {
         document.getElementById("updateResult").innerHTML = err.message;
     }
 }
-
 
 function updateUser() {
     let newFirst = document.getElementById("newUserFirst").value;
