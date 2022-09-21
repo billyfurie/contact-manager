@@ -42,40 +42,41 @@
 				</button>
 				</div>
 				<div class="modal-body">
-				<form id="editContactForm">
-					<div class="form-group">
-						<label for="firstName">First Name:</label>
-						<input 
-							type="text"
-							class="form-control"
-							id="editFirst"
-							placeholder="Joe">
-					</div>
-					<div class="form-group">
-						<label for="lastName">Last Name:</label>
-						<input 
-							type="text"
-							class="form-control"
-							id="editLast"
-							placeholder="Bob">
-					</div>
-					<div class="form-group">
-						<label for="email">Email Address:</label>
-						<input 
-							type="email"
-							class="form-control"
-							id="editEmail"
-							placeholder="JoeBob@JoeBob.com">
-					</div>
-					<div class="form-group">
-						<label for="phone">Phone Number:</label>
-						<input 
-							type="text"
-							class="form-control"
-							id="editPhone"
-							placeholder="321-321-3213">
-					</div>
-				</form>
+					<form id="editContactForm">
+						<div class="form-group">
+							<label for="firstName">First Name:</label>
+							<input 
+								type="text"
+								class="form-control"
+								id="editFirst"
+								placeholder="Joe">
+						</div>
+						<div class="form-group">
+							<label for="lastName">Last Name:</label>
+							<input 
+								type="text"
+								class="form-control"
+								id="editLast"
+								placeholder="Bob">
+						</div>
+						<div class="form-group">
+							<label for="email">Email Address:</label>
+							<input 
+								type="email"
+								class="form-control"
+								id="editEmail"
+								placeholder="JoeBob@JoeBob.com">
+						</div>
+						<div class="form-group">
+							<label for="phone">Phone Number:</label>
+							<input 
+								type="text"
+								class="form-control"
+								id="editPhone"
+								placeholder="321-321-3213">
+						</div>
+					</form>
+					<p id="editContactSubmit"></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -83,12 +84,10 @@
 						type="button"
 						id="editContactButton"
 						class="btn btn-primary"
-						data-dismiss="modal"
 						> 
 						<i class="fa-solid fa-pencil"></i>
 					</button>
 				</div>
-				<span id="addContactSubmit"></span>
 			</div>
 			</div>
 		</div>
@@ -104,72 +103,71 @@
 				</button>
 				</div>
 				<div class="modal-body">
-				<form id="addContactForm">
-					<div class="form-group">
-						<label for="firstName">First Name:</label>
-						<input 
-							type="text"
-							class="form-control"
-							id="newFirst"
-							placeholder="Joe">
-					</div>
-					<div class="form-group">
-						<label for="lastName">Last Name:</label>
-						<input 
-							type="text"
-							class="form-control"
-							id="newLast"
-							placeholder="Bob">
-					</div>
-					<div class="form-group">
-						<label for="email">Email Address:</label>
-						<input 
-							type="email"
-							class="form-control"
-							id="newEmail"
-							placeholder="JoeBob@JoeBob.com">
-					</div>
-					<div class="form-group">
-						<label for="phone">Phone Number:</label>
-						<input 
-							type="text"
-							class="form-control"
-							id="newPhone"
-							placeholder="321-321-3213">
-					</div>
-				</form>
+					<form id="addContactForm">
+						<div class="form-group">
+							<label for="firstName">First Name:</label>
+							<input 
+								type="text"
+								class="form-control"
+								id="newFirst"
+								placeholder="Joe">
+						</div>
+						<div class="form-group">
+							<label for="lastName">Last Name:</label>
+							<input 
+								type="text"
+								class="form-control"
+								id="newLast"
+								placeholder="Bob">
+						</div>
+						<div class="form-group">
+							<label for="email">Email Address:</label>
+							<input 
+								type="email"
+								class="form-control"
+								id="newEmail"
+								placeholder="JoeBob@JoeBob.com">
+						</div>
+						<div class="form-group">
+							<label for="phone">Phone Number:</label>
+							<input 
+								type="text"
+								class="form-control"
+								id="newPhone"
+								placeholder="321-321-3213">
+						</div>
+					</form>
+					<p id="addContactSubmit"></p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" id="closeAddContactModal" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button 
 								type="button"
 								id="addContactButton"
 								class="btn btn-primary"
 								onclick="addContact();"
-								data-dismiss="modal"
 								> Add Contact 
 								
 					</button>
 				</div>
-				<span id="addContactSubmit"></span>
 			</div>
 			</div>
 		</div>
 		
 		<div class="contact-container">
-			
-
 			<div class="register-container2">
-				<h1 id="title2">Welcome to MyContactManager</h1>
-				<div id="loggedInDiv">
-					<button
-						type="button"
-						id="logoutButton"
-						class="btn btn-dark"
-						onclick="logout();"> Log Out 
-					</button>
-					<b><span id="userName"></span></b>
-					
+				<div class="contacts-header">
+					<h3 id="title2">Welcome to MyContactManager</h3>
+					<div id="loggedInDiv">
+						<button
+							type="button"
+							id="logoutButton"
+							class="btn btn-danger"
+							onclick="logout();"> Log Out 
+						</button>
+						<b><span id="userName"></span></b>
+						
+					</div>
 				</div>
 
 				<div id="accessUIDiv" class="container-fluid">
@@ -180,13 +178,14 @@
 
 
 						<!-- SEARCH CONTACT -->
-						<div id="searchDiv" class="container">
+						<div id="searchDiv">
 							<div class="input-group search-input">
 								<input 
 									type="text"
 									id="searchVal"
 									class="form-control"
 									placeholder="Search contacts"
+									onkeyup="searchContact();"
 								/>
 								<div class="input-group-append">
 									<button 
@@ -203,8 +202,8 @@
 					</div>
 						
 					<!-- Table with found contacts -->
-					<div id="tableContainer" class="container">
-						<table id="searchTable" class="table table-striped table-hover table-responsive-lg">
+					<div id="tableContainer" class="table-wrapper">
+						<table id="searchTable" class="table table-striped table-hover table-responsive-lg table-borderless">
 							<thead id="searchTableHead">
 								<tr>
 									<th id="tableIDCol" style="display: none;">ID</th>
@@ -219,6 +218,9 @@
 							</tbody>
 						</table>
 					</div>
+
+					<div id="no-contacts-found"></div>
+
 					<span id="removeContactResult"></span>
 					<br />
 					<span id="updateContactResult"></span>

@@ -76,6 +76,8 @@ function login(){
 
                 if(tempID < 1){
                     document.getElementById("loginSubmit").innerHTML = "Email or Password incorrect";
+                    loginField.classList.add("field-invalid");
+                    passField.classList.add("field-invalid");
                     return;
                 }
 
@@ -227,36 +229,65 @@ function addContact(){
     let newLast = document.getElementById("newLast").value;
     let newEmail = document.getElementById("newEmail").value;
     let newPhone = document.getElementById("newPhone").value;
+
+
+    let newFirstField = document.getElementById("newFirst");
+    let newLastField = document.getElementById("newLast");
+    let newEmailField = document.getElementById("newEmail");
+    let newPhoneField = document.getElementById("newPhone");
     document.getElementById("addContactSubmit").innerHTML = "";
-    // Make sure to match these in contacts.html
+    newFirstField.classList.remove("field-invalid");
+    newLastField.classList.remove("field-invalid");
+    newEmailField.classList.remove("field-invalid");
+    newPhoneField.classList.remove("field-invalid");
 
     if(newFirst == "" || newLast == "" || newEmail == "" || newPhone == ""){
-        document.getElementById("addContactSubmit").innerHTML = "All fields are required for new contacts";
-    } 
-    else {
-        let newObj = {firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone, userId:tempID}
-        let pay = JSON.stringify(newObj);
-
-        let link = url + "/LAMPAPI/AddContact" + ext;
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", link, true);
-        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-        try {
-            xhr.onreadystatechange = function() {
-                if(this.readyState == 4 && this.status == 200){
-                    document.getElementById("addContactSubmit").innerHTML = "New Contact has been added";
-                    document.getElementById("addContactForm").reset();
-                    searchContact();
-                }
-            };
-            xhr.send(pay);
+        document.getElementById("addContactSubmit").innerHTML = "Please fill in all fields.";
+        if(newEmail == ""){
+            newEmailField.classList.add("field-invalid");
         }
-        catch(err) { 
-            document.getElementById("addContactSubmit").innerHTML = err.message;
+        if(newPhone == ""){
+            newPhoneField.classList.add("field-invalid");
         }
+        if(newFirst == ""){
+            newFirstField.classList.add("field-invalid");
+        }
+        if(newLast == ""){
+            newLastField.classList.add("field-invalid");  
+        }
+        return;
+    }
+    if (validEmail(newEmail) == false) {
+        document.getElementById('addContactSubmit').innerHTML = "Please enter a valid email.";
+        newEmailField.classList.add("field-invalid");
+        return;
+    }
+    
+    let newObj = {firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone, userId:tempID}
+    let pay = JSON.stringify(newObj);
 
+    let link = url + "/LAMPAPI/AddContact" + ext;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", link, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try {
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200){
+                document.getElementById("addContactForm").reset();
+
+                var myModal = document.getElementById('addContactModal');
+                var modal = bootstrap.Modal.getInstance(myModal);
+                modal.hide();
+                
+                searchContact();
+            }
+        };
+        xhr.send(pay);
+    }
+    catch(err) { 
+        document.getElementById("addContactSubmit").innerHTML = err.message;
     }
 }
 
@@ -264,6 +295,8 @@ function searchContact() {
     let searchContact = document.getElementById("searchVal").value;
     let contactList = "";
     document.getElementById("searchTableBody").innerHTML = contactList;
+
+    document.getElementById("no-contacts-found").innerHTML = "";
 
     let tempObj = {search:searchContact, userId:tempID};
     let pay = JSON.stringify(tempObj);
@@ -281,6 +314,15 @@ function searchContact() {
                 document.getElementById("searchTableBody").innerHTML = "";
                 let jsonObj = JSON.parse(xhr.responseText);
 
+                // if (jsonObj.error == "No Records Found") {
+                //     console.log("No contacts found");
+                //     document.getElementById("no-contacts-found").innerHTML = 
+                //         `<div class="no-contacts-found">
+                //             <i class="fa-solid fa-circle-exclamation fa-3x"></i>
+                //             <h4 class="no-contacts-found-text">No contacts were found! Create a new contact or try modifying your search.</h4>
+                //         </div>`;
+                // }
+
        
                 for(let i = 0; i < jsonObj.results.length; i++){
                     contactList += '<tr>';
@@ -290,10 +332,7 @@ function searchContact() {
                     contactList += "<td>" + jsonObj.results[i].phoneNumber + "</td>";
 
                     contactList += '<td class="button-col">';
-
-                    //	 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addContactModal">Add Contact</button>
-
-                    // contactList += '<button type="button" class="btn btn-success contactActionButton" onClick=updateContact(' + jsonObj.results[i].contactId + ')>Edit</button>';
+                    
                     let contactInfo = jsonObj.results[i].contactId + ", '" + jsonObj.results[i].firstName + "', '" + jsonObj.results[i].lastName +  "', '" + jsonObj.results[i].email +  "', '" + jsonObj.results[i].phoneNumber + "'";
                     contactList += '<button type="button" class="btn btn-success contactActionButton" data-toggle="modal" data-target="#editContactModal" onClick="populateEditModal(' + contactInfo + ')"><i class="fa-solid fa-pencil"></i></button>';
                     contactList += '<button type="button" class="btn btn-danger contactActionButton" onClick=deleteContact(' + jsonObj.results[i].contactId + ')><i class="fa-solid fa-trash-can"></i></button>';
@@ -344,6 +383,40 @@ function updateContact(id) {
     let newEmail = document.getElementById("editEmail").value;
     let newPhone = document.getElementById("editPhone").value;
 
+
+    let newFirstField = document.getElementById("editFirst");
+    let newLastField = document.getElementById("editLast");
+    let newEmailField = document.getElementById("editEmail");
+    let newPhoneField = document.getElementById("editPhone");
+    document.getElementById("editContactSubmit").innerHTML = "";
+    newFirstField.classList.remove("field-invalid");
+    newLastField.classList.remove("field-invalid");
+    newEmailField.classList.remove("field-invalid");
+    newPhoneField.classList.remove("field-invalid");
+
+    if(newFirst == "" || newLast == "" || newEmail == "" || newPhone == ""){
+        document.getElementById("editContactSubmit").innerHTML = "Please fill in all fields.";
+        if(newEmail == ""){
+            newEmailField.classList.add("field-invalid");
+        }
+        if(newPhone == ""){
+            newPhoneField.classList.add("field-invalid");
+        }
+        if(newFirst == ""){
+            newFirstField.classList.add("field-invalid");
+        }
+        if(newLast == ""){
+            newLastField.classList.add("field-invalid");  
+        }
+        return;
+    }
+    if (validEmail(newEmail) == false) {
+        document.getElementById('editContactSubmit').innerHTML = "Please enter a valid email.";
+        newEmailField.classList.add("field-invalid");
+        return;
+    }
+
+
     let tempObj = {contactId:id, firstName:newFirst, lastName:newLast, email:newEmail, phoneNumber:newPhone};
     let pay = JSON.stringify(tempObj);
 
@@ -366,43 +439,6 @@ function updateContact(id) {
     }
 }
 
-function updateUser() {
-    let newFirst = document.getElementById("newUserFirst").value;
-    let newLast = document.getElementById("newUserLast").value;
-    let newEmail = document.getElementById("newUserEmail").value;
-    let newPass = document.getElementById("newUserPassword").value;
-
-    document.getElementById("updateUserResult").innerHTML = "";
-    
-    let tempObj = {userId: tempID, firstName:newFirst, lastName:newLast, email:newEmail, password:newPass};
-    let pay = JSON.stringify(tempObj);
-
-    let link = url + "/LAMPAPI/UpdateUser" + ext;
-    
-    let xhr = new XMLHttpRequest();
-    xhr.open("PUT", link, true);
-    xhr.setRequestHeader("Content-type", "applicaton/json; charset=UTF-8");
-
-
-    try {
-        xhr.onreadystatechange = function() {
-            if(this.readyState == 4 && this.status == 200) {
-                document.getElementById("newUserFirst").value = "";
-                document.getElementById("newUserLast").value = "";
-                document.getElementById("newUserEmail").value = "";
-                document.getElementById("newUserPhone").value = "";
-
-                document.getElementById("updateUserResult").innerHTML = "User Successfully Updated";
-            }
-        };
-        xhr.send(pay);
-    }
-    catch(err){
-        document.getElementById("updateUserResult").innerHTML = err.message;
-    }
-}
-
-
 function populateEditModal(contactId, firstName, lastName, email, phoneNumber) {
 
     document.getElementById("editFirst").value = firstName;
@@ -410,5 +446,5 @@ function populateEditModal(contactId, firstName, lastName, email, phoneNumber) {
     document.getElementById("editEmail").value = email;
     document.getElementById("editPhone").value = phoneNumber;
     //document.getElementById("editContactButton").onmousedown = updateContact(contactId);
-    document.getElementById("editContactButton").outerHTML = '<button type="button" id="editContactButton" class="btn btn-primary" data-dismiss="modal" onClick="updateContact(' + contactId + ')"><i class="fa-solid fa-pencil"></i></button>'
+    document.getElementById("editContactButton").outerHTML = '<button type="button" id="editContactButton" class="btn btn-primary" onClick="updateContact(' + contactId + ')"><i class="fa-solid fa-pencil"></i></button>'
 }
