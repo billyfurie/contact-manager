@@ -127,7 +127,7 @@ function readCookie(){
         window.location.href = "index.html";
     }
     else{
-        document.getElementById("email").innerHTML = "Logged in as " + tempFirst + " " + tempLast;
+        //document.getElementById("email").innerHTML = "Logged in as " + tempFirst + " " + tempLast;
     }
 }
 
@@ -262,8 +262,6 @@ function addContact(){
 
 function searchContact() {
     let searchContact = document.getElementById("searchVal").value;
-    document.getElementById("searchSubmit").innerHTML = "";
-
     let contactList = "";
     document.getElementById("searchTableBody").innerHTML = contactList;
 
@@ -310,14 +308,12 @@ function searchContact() {
         xhr.send(pay);
     }
     catch(err){
-        document.getElementById("searchSubmit").innerHTML = err.message;
+
     }
 }
 
 function deleteContact(contactId) {
     console.log("deleted");
-    document.getElementById("deleteSubmit").innerHTML = "";
-
 
     let link = url + "/LAMPAPI/RemoveContact" + ext + "?contactId=" + contactId;
 
@@ -329,7 +325,6 @@ function deleteContact(contactId) {
         
         xhr.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200){
-                //document.getElementById("deleteSubmit").innerHTML = "Contact Removed Successfully";
                 console.log("contact" + contactId);
                 searchContact();
             }
@@ -339,7 +334,6 @@ function deleteContact(contactId) {
     }
     catch(err){
         console.log("error");
-        document.getElementById("deleteSubmit").innerHTML = err.message;
     }
 }
 
